@@ -1,5 +1,6 @@
 package com.itwhy.test;
 
+import com.itwhy.jedis.util.JedisConnectionFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,22 +11,20 @@ import java.util.Map;
 /**
  * @ClassName: {NAME}
  * @Auther: why
- * @Date: 2023/07/04 15 56
+ * @Date: 2023/07/04 17 10
  * @Version: v1.0
  */
-public class JedisTest {
+public class JedisPoolTest {
+
     private Jedis jedis;
 
     @BeforeEach
-    void setUp() {
-        //1.建立连接
-        jedis = new Jedis("127.0.0.1", 6379);
-        //2.设置密码
-//        jedis.auth("123321");
-        //3.选择库
+    void setUp(){
+        //建立连接
+        jedis = JedisConnectionFactory.getJedis();
+        //选择库
         jedis.select(0);
     }
-
 
     @Test
     void testString() {
@@ -49,7 +48,7 @@ public class JedisTest {
     }
 
     @AfterEach
-    void tearDown(){
+    void tearDown() {
         if(jedis != null) {
             jedis.close();
         }
